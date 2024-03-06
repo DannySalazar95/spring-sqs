@@ -1,8 +1,7 @@
 package com.dannysn.springsqs.config.sqs;
 
-import io.awspring.cloud.autoconfigure.sqs.SqsProperties;
 import io.awspring.cloud.sqs.config.SqsBootstrapConfiguration;
-import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +25,10 @@ public class SQSConfiguration {
     @Value("${aws.sqs.secret-key}")
     private String awsSecretKey;
 
+
     @Bean
-    public SqsMessageListenerContainerFactory<Object> defaultSqsListenerContainerFactory() {
-        return SqsMessageListenerContainerFactory
-                .builder()
-                .sqsAsyncClient(sqsAsyncClient())
-                .build();
+    public SqsTemplate sqsTemplate(SqsAsyncClient sqsAsyncClient) {
+        return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient).build();
     }
 
     @Bean
@@ -42,11 +39,6 @@ public class SQSConfiguration {
                         AwsBasicCredentials.create(awsAccessKey, awsSecretKey)
                 ))
                 .build();
-    }
-
-    @Bean
-    public SqsProperties.Listener listener() {
-        return new SqsProperties.Listener();
     }
 
 }
