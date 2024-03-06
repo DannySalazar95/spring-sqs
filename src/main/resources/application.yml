@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: springsqs
+  config:
+    import: optional:environment.yml

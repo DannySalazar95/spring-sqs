@@ -1,0 +1,5 @@
+aws:
+  sqs:
+    region: us-east-2
+    access-key: xxxxxx
+    secret-key: xxxxxx
